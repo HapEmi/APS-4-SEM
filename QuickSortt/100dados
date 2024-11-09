@@ -1,1 +1,60 @@
+#include <stdio.h>
+#include <string.h>
+
+// Função para ordenar uma lista de strings usando o Quicksort
+void quick(char vet[][100], int esq, int dir) {
+    int pivo = esq;
+    int i, j;
+    char temp[100];  // Buffer temporário para trocar strings
+
+    for (i = esq + 1; i <= dir; i++) {
+        j = i;
+        if (strcmp(vet[j], vet[pivo]) < 0) {  // Ordenação em ordem alfabética
+            strcpy(temp, vet[j]);
+            while (j > pivo && strcmp(temp, vet[j - 1]) < 0) {
+                strcpy(vet[j], vet[j - 1]);
+                j--;
+            }
+            strcpy(vet[j], temp);
+            pivo++;
+        }
+    }
+
+    if (pivo - 1 >= esq) {
+        quick(vet, esq, pivo - 1);
+    }
+    if (pivo + 1 <= dir) {
+        quick(vet, pivo + 1, dir);
+    }
+}
+
+int main() {
+    char lista[100][100] = {
+         "Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel"
+    };
+    int n = sizeof(lista) / sizeof(lista[0]);
+
+    printf("Lista antes da ordenacao:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%s\n", lista[i]);
+    }
+
+    quick(lista, 0, n - 1);
+
+    printf("\nLista apos a ordenacao:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%s\n", lista[i]);
+    }
+
+    return 0;
+}
 
