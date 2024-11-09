@@ -1,1 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define NUM_BUCKETS 26  // Número de baldes (uma para cada letra do alfabeto)
+
+// Estrutura para cada balde
+typedef struct Bucket {
+    char **strings;     // Lista de strings no balde
+    int count;           // Número de strings no balde
+    int capacity;        // Capacidade atual do balde
+} Bucket;
+
+// Função para inicializar um balde
+void initBucket(Bucket *bucket) {
+    bucket->count = 0;
+    bucket->capacity = 10;
+    bucket->strings = (char **)malloc(bucket->capacity * sizeof(char *));
+}
+
+// Função para adicionar uma string ao balde
+void addStringToBucket(Bucket *bucket, char *str) {
+    if (bucket->count == bucket->capacity) {
+        bucket->capacity *= 2;
+        bucket->strings = (char **)realloc(bucket->strings, bucket->capacity * sizeof(char *));
+    }
+    bucket->strings[bucket->count] = str;
+    bucket->count++;
+}
+
+// Função de comparação para qsort (ordenação alfabética)
+int compareStrings(const void *a, const void *b) {
+    return strcmp(*(const char **)a, *(const char **)b);
+}
+
+// Função para o Bucket Sort em uma lista de strings
+void bucketSort(char *arr[], int n) {
+    // Cria e inicializa os baldes
+    Bucket buckets[NUM_BUCKETS];
+    for (int i = 0; i < NUM_BUCKETS; i++) {
+        initBucket(&buckets[i]);
+    }
+
+    // Distribui as strings nos baldes com base no primeiro caractere
+    for (int i = 0; i < n; i++) {
+        char *str = arr[i];
+        int index = (str[0] | 32) - 'a';  // Ignora diferenciação de maiúsculas e minúsculas
+        if (index >= 0 && index < NUM_BUCKETS) {
+            addStringToBucket(&buckets[index], str);
+        }
+    }
+
+    // Ordena cada balde e coloca as strings de volta no array original
+    int pos = 0;
+    for (int i = 0; i < NUM_BUCKETS; i++) {
+        if (buckets[i].count > 0) {
+            // Ordena o balde atual
+            qsort(buckets[i].strings, buckets[i].count, sizeof(char *), compareStrings);
+            // Coloca as strings ordenadas de volta no array original
+            for (int j = 0; j < buckets[i].count; j++) {
+                arr[pos++] = buckets[i].strings[j];
+            }
+            free(buckets[i].strings);
+        }
+    }
+}
+
+// Função para imprimir o array de strings
+void printArray(char *arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%s\n", arr[i]);
+    }
+}
+
+int main() {
+    // Lista de strings a ser ordenada
+    char *arr[] = { "Banana", "Uva", "Maca", "Laranja", "Abacaxi" };
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Antes da ordenação:\n");
+    printArray(arr, n);
+
+    bucketSort(arr, n);
+
+    printf("\nDepois da ordenação:\n");
+    printArray(arr, n);
+
+    return 0;
+}
 
