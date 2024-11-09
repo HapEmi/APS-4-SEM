@@ -1,1 +1,129 @@
+#include <stdio.h>
+#include <string.h>
+
+// Função de mesclagem para unir dois sub-arrays ordenados
+void merge(char *a[], int p, int q, int r) {
+    int n1 = q - p + 1;
+    int n2 = r - q;
+
+    // Criação de arrays temporários para armazenar as partes a serem mescladas
+    char *L[n1], *R[n2];
+
+    // Copiando dados para os arrays temporários L[] e R[]
+    for (int i = 0; i < n1; i++)
+        L[i] = a[p + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = a[q + 1 + j];
+
+    // Mesclando os arrays temporários de volta para a[p..r]
+    int i = 0, j = 0, k = p;
+
+    while (i < n1 && j < n2) {
+        if (strcmp(L[i], R[j]) <= 0) {
+            a[k] = L[i];
+            i++;
+        } else {
+            a[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Copiando os elementos restantes de L[], se houver
+    while (i < n1) {
+        a[k] = L[i];
+        i++;
+        k++;
+    }
+
+    // Copiando os elementos restantes de R[], se houver
+    while (j < n2) {
+        a[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+// Função principal de Merge Sort para strings
+void mergeSort(char *a[], int p, int r) {
+    if (p < r) {
+        int q = (p + r) / 2;
+        mergeSort(a, p, q);
+        mergeSort(a, q + 1, r);
+        merge(a, p, q, r);
+    }
+}
+
+// Função para imprimir o array de strings
+void printArray(char *a[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%s\n", a[i]);
+    }
+}
+
+int main() {
+    // Lista de strings a ser ordenada
+    char *a[] = { "Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel",
+"Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel",
+"Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel",
+"Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel",
+"Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel" };
+    int size = sizeof(a) / sizeof(a[0]);
+
+    printf("Antes da ordenação:\n");
+    printArray(a, size);
+
+    mergeSort(a, 0, size - 1);
+
+    printf("\nDepois da ordenação:\n");
+    printArray(a, size);
+
+    return 0;
+}
+
 
