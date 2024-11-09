@@ -1,1 +1,51 @@
+#include <stdio.h>
+#include <string.h>
+
+// Função para ordenar uma lista de strings usando Insertion Sort
+void insertionSort(char *vet[], int tam) {
+    int i, j;
+    char *x;
+
+    for (i = 1; i < tam; i++) {
+        x = vet[i];  // Armazena a string atual
+        j = i - 1;
+
+        // Move elementos que são lexicograficamente maiores que x uma posição à frente
+        while (j >= 0 && strcmp(vet[j], x) > 0) {
+            vet[j + 1] = vet[j];
+            j--;
+        }
+        
+        // Insere a string na posição correta
+        vet[j + 1] = x;
+    }
+}
+
+// Função para imprimir o vetor de strings
+void printArray(char *vet[], int tam) {
+    for (int i = 0; i < tam; i++) {
+        printf("%s\n", vet[i]);
+    }
+}
+
+int main() {
+    char *lista[] = {
+        "Banana",
+        "Uva",
+        "Maca",
+        "Laranja",
+        "Abacaxi"
+    };
+    int n = sizeof(lista) / sizeof(lista[0]);
+
+    printf("Lista antes da ordenação:\n");
+    printArray(lista, n);
+
+    insertionSort(lista, n);
+
+    printf("\nLista após a ordenação:\n");
+    printArray(lista, n);
+
+    return 0;
+}
 
