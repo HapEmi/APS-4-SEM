@@ -1,1 +1,110 @@
 
+#include <stdio.h>
+#include <string.h>
+
+// Função para busca binária para encontrar a posição de inserção
+int binarySearch(char *array[], int itemCount, char *x) {
+    int left = 0;
+    int right = itemCount - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        // Compara as strings usando strcmp
+        if (strcmp(array[mid], x) < 0) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    return left;
+}
+
+// Função para ordenar uma lista de strings usando o Binary Insertion Sort
+void binaryInsertionSort(char *array[], int size) {
+    for (int i = 1; i < size; i++) {
+        char *x = array[i];
+
+        // Encontra a posição de inserção usando busca binária
+        int j = binarySearch(array, i, x);
+
+        // Desloca as strings para a direita para abrir espaço
+        for (int k = i; k > j; k--) {
+            array[k] = array[k - 1];
+        }
+
+        // Insere a string na posição encontrada
+        array[j] = x;
+    }
+}
+
+// Função para imprimir o array de strings
+void printArray(char *array[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%s\n", array[i]);
+    }
+}
+
+int main() {
+    char *array[] = {  "Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel",
+"Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel",
+"Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel",
+"Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel",
+"Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel" };
+    int size = sizeof(array) / sizeof(array[0]);
+
+    printf("Antes da ordenação:\n");
+    printArray(array, size);
+
+    binaryInsertionSort(array, size);
+
+    printf("\nDepois da ordenação:\n");
+    printArray(array, size);
+
+    return 0;
+}
