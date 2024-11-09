@@ -1,1 +1,68 @@
+#include <stdio.h>
+#include <string.h>
+
+// Função para busca binária para encontrar a posição de inserção
+int binarySearch(char *array[], int itemCount, char *x) {
+    int left = 0;
+    int right = itemCount - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        // Compara as strings usando strcmp
+        if (strcmp(array[mid], x) < 0) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    return left;
+}
+
+// Função para ordenar uma lista de strings usando o Binary Insertion Sort
+void binaryInsertionSort(char *array[], int size) {
+    for (int i = 1; i < size; i++) {
+        char *x = array[i];
+
+        // Encontra a posição de inserção usando busca binária
+        int j = binarySearch(array, i, x);
+
+        // Desloca as strings para a direita para abrir espaço
+        for (int k = i; k > j; k--) {
+            array[k] = array[k - 1];
+        }
+
+        // Insere a string na posição encontrada
+        array[j] = x;
+    }
+}
+
+// Função para imprimir o array de strings
+void printArray(char *array[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%s\n", array[i]);
+    }
+}
+
+int main() {
+    char *array[] = {  "Ana", "Bruno", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena",
+            "Igor", "Juliana", "Kleber", "Larissa", "Marcos", "Natália", "Otávio", "Paula",
+            "Rafael", "Simone", "Tatiana", "Vinícius", "Wesley", "Yasmin", "Zeca", "Bárbara",
+            "Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloísa", "Isabel", "João",
+            "Lúcia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+            "Úrsula", "Vitor", "William", "Yago", "Zélia", "Alice", "Beatriz", "Camila",
+            "Diego", "Elisa", "Fábio", "Glória", "Henrique", "Isadora", "Júlia", "Lauro",
+            "Murilo", "Nicole", "Otávia", "Patrícia", "Rodrigo", "Samara", "Talita", "Valéria" };
+    int size = sizeof(array) / sizeof(array[0]);
+
+    printf("Antes da ordenação:\n");
+    printArray(array, size);
+
+    binaryInsertionSort(array, size);
+
+    printf("\nDepois da ordenação:\n");
+    printArray(array, size);
+
+    return 0;
+}
 
