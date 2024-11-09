@@ -1,1 +1,79 @@
+//CONECTANDO NA NUVEM
+!gcloud auth login
+!gcloud config set project your-project-id  # Replace with your GCP project ID
 
+//CONECTANDO NO DRIVE PARA PUXAR O BANCO DE DADOS EM CSV COM 500 DADOS
+from google.colab import drive
+drive.mount('/content/drive')
+
+!echo "deb http://packages.cloud.google.com/apt gcsfuse-bionic main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list
+!curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+!sudo apt-get update
+!sudo apt-get install -y gcsfuse
+
+!mkdir -p /content/drive
+!gcsfuse --implicit-dirs drive /content/drive
+
+//RODANDO O PROGRAMA, NO ENTANTO, O PRIMEIRO COMANDO É PARA CONFIGURAR A IDE PARA A LINGUAGEM C
+%%writefile main.c
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <locale.h>
+
+#define TAMANHO_LISTA 500
+#define TAMANHO_STRING 100
+
+void bubbleSort(char lista[][TAMANHO_STRING], int tamanho) {
+    char temp[TAMANHO_STRING];
+    for (int i = tamanho - 1; i > 0; i--) {
+        for (int j = 0; j < i; j++) {
+            if (strcmp(lista[j], lista[j + 1]) > 0) {
+                strcpy(temp, lista[j]);
+                strcpy(lista[j], lista[j + 1]);
+                strcpy(lista[j + 1], temp);
+            }
+        }
+    }
+}
+
+int main() {
+    setlocale(LC_ALL, "");
+
+    char nomes[TAMANHO_LISTA][TAMANHO_STRING];
+    FILE *fptr;
+    int linha = 0;
+
+    fptr = fopen("/content/drive/MyDrive/CSV/500artistas.csv", "r"); // Assuming your CSV file is named "500nomes.csv"
+    if (fptr == NULL) {
+        perror("Erro ao abrir o arquivo"); // Use perror for more detailed error messages
+        return 1;
+    }
+
+    // Read each line, assuming names are separated by commas
+    while (linha < TAMANHO_LISTA && fgets(nomes[linha], TAMANHO_STRING, fptr) != NULL) {
+        // Remove the newline character
+        nomes[linha][strcspn(nomes[linha], "\n")] = 0;
+        linha++;
+    }
+
+    fclose(fptr);
+
+    printf("Lista antes da ordenacao:\n");
+    for (int i = 0; i < linha; i++) { // Print only the lines that were read
+        printf("%s\n", nomes[i]);
+    }
+
+    bubbleSort(nomes, linha); // Sort only the lines that were read
+
+    printf("\nLista apos a ordenacao:\n");
+    for (int i = 0; i < linha; i++) { // Print only the lines that were read
+        printf("%s\n", nomes[i]);
+    }
+
+    return 0;
+}
+
+//PRINT, PARA VER SE ORDENOU OS DADOS
+!gcc main.c -o main
+!./main
