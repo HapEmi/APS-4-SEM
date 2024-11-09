@@ -1,1 +1,72 @@
+#include <stdio.h>
+#include <string.h>
 
+// Função para trocar dois elementos
+void swap(char **a, char **b) {
+    char *temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Função para transformar o vetor em um heap
+void heapify(char *vetor[], int n, int i) {
+    int largest = i;          // Inicializa a raiz como o maior elemento
+    int l = 2 * i + 1;        // Filho à esquerda
+    int r = 2 * i + 2;        // Filho à direita
+
+    // Verifica se o filho à esquerda é maior que a raiz
+    if (l < n && strcmp(vetor[l], vetor[largest]) > 0)
+        largest = l;
+
+    // Verifica se o filho à direita é maior que o maior até agora
+    if (r < n && strcmp(vetor[r], vetor[largest]) > 0)
+        largest = r;
+
+    // Se o maior elemento não está na raiz
+    if (largest != i) {
+        swap(&vetor[i], &vetor[largest]);  // Troca
+        // Recursivamente heapify na sub-árvore afetada
+        heapify(vetor, n, largest);
+    }
+}
+
+// Função principal do Heap Sort
+void heapSort(char *vetor[], int n) {
+    // Constrói o heap (rearranja o vetor)
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        heapify(vetor, n, i);
+    }
+
+    // Extrai os elementos um por um do heap
+    for (int i = n - 1; i >= 0; i--) {
+        // Move a raiz atual para o fim
+        swap(&vetor[0], &vetor[i]);
+        // Chama heapify na heap reduzida
+        heapify(vetor, i, 0);
+    }
+}
+
+// Função para imprimir o vetor
+void printArray(char *vetor[], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%s\n", vetor[i]);
+    }
+}
+
+int main() {
+    char *lista[] = {
+        "Banana",
+        "Uva",
+        "Maca",
+        "Laranja",
+        "Abacaxi"
+    };
+    int n = sizeof(lista) / sizeof(lista[0]);
+
+    heapSort(lista, n);
+
+    printf("Lista ordenada:\n");
+    printArray(lista, n);
+
+    return 0;
+}
