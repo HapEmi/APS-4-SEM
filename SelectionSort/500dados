@@ -1,1 +1,96 @@
+#include <stdio.h>
+#include <string.h>
+
+// Função para realizar o Selection Sort em uma lista de strings
+void selectionSort(char *vet[], int tam) {
+    int i, j, min;
+    char *temp;
+
+    for (i = 0; i < tam - 1; i++) {
+        min = i; // Assume que o elemento atual é o menor
+        for (j = i + 1; j < tam; j++) {
+            // Se vet[j] é lexicograficamente menor que vet[min]
+            if (strcmp(vet[j], vet[min]) < 0) {
+                min = j; // Atualiza o índice do menor elemento
+            }
+        }
+        // Troca vet[i] com vet[min]
+        temp = vet[min];
+        vet[min] = vet[i];
+        vet[i] = temp;
+    }
+}
+
+// Função para imprimir o vetor de strings
+void printArray(char *vet[], int tam) {
+    for (int i = 0; i < tam; i++) {
+        printf("%s\n", vet[i]);
+    }
+}
+
+int main() {
+    char *lista[] = {
+         "Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel",
+"Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel",
+"Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel",
+"Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel",
+"Ana", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena","Igor", "Juliana",
+         "Kleber", "Larissa", "Marciel", "Nataly", "Otavio", "Paula","Ricardo", "Simone", "Tatiana", "Vinicius",
+         "Wesley", "Yasmin", "Zeca", "Barbara","Caio", "Debora", "Estela", "Felipe", "Gustavo", "Heloisa",
+         "Isabel", "Joao","Lucia", "Marcelo", "Nina", "Olavo", "Priscila", "Renato", "Sara", "Tiago",
+         "Ursula", "Vitor", "William", "Yago", "Zelia", "Alice", "Beatriz", "Camila","Diego", "Elisa",
+         "Fabio", "Gloria", "Henrique", "Isadora", "Julia", "Lauro","Murilo", "Nicole", "Otavia", "Patrick",
+         "Rodrigo", "Samara", "Talita", "Valeria", "Cintia", "Andre", "Kamila", "Paulo", "Cristina", "Carol",
+         "Jessica", "Bruno", "Charles", "Bianca", "Patricia", "Nathalia", "Pedro", "Roberto", "Francisco", "Fernando",
+         "Pietra", "Rafael", "Gabriela", "Nicolas", "Fabiano", "Rebeca", "Isa", "Hivia", "Karen", "Roberta",
+         "Mariana", "Thais", "Thiago", "Marcus", "Marcela", "Ruan", "Marcos", "Souza", "Gilberto", "Daniel"
+    };
+    int n = sizeof(lista) / sizeof(lista[0]);
+
+    printf("Lista antes da ordenação:\n");
+    printArray(lista, n);
+
+    selectionSort(lista, n);
+
+    printf("\nLista após a ordenação:\n");
+    printArray(lista, n);
+
+    return 0;
+}
 
