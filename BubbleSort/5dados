@@ -1,1 +1,65 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <locale.h>
+
+#define TAMANHO_LISTA 10
+#define TAMANHO_STRING 100
+#define MAX_TAM_NOME 100
+
+void bubbleSort(char lista[][TAMANHO_STRING], int tamanho) {
+    for (int i = tamanho - 1; i > 0; i--) {
+        for (int j = 0; j < i; j++) {
+            // Compara as strings usando strcmp
+            if (strcmp(lista[j], lista[j + 1]) > 0) {
+                // Troca caractere por caractere
+                for (int k = 0; k < TAMANHO_STRING; k++) {
+                    lista[j][k] = lista[j][k] + lista[j + 1][k];
+                    lista[j + 1][k] = lista[j][k] - lista[j + 1][k];
+                    lista[j][k] = lista[j][k] - lista[j + 1][k];
+                }
+            }
+        }
+    }
+}
+
+int main() {
+    setlocale(LC_ALL, "");  // Configura para o sistema local
+
+    char nomes[TAMANHO_LISTA]; // Array para armazenar até 100 pares de nomes
+    FILE *fptr;
+    int linha = 0; // Contador de linhas lidas
+
+    // Abre o arquivo para leitura
+    fptr = fopen("10nome.csv", "r");
+    if (fptr == NULL) {
+        fprintf(stderr, "Erro ao abrir o arquivo.\n");
+        return 1; // Retorna um erro se o arquivo não puder ser aberto
+    }
+    
+    // Lê cada linha do arquivo
+    while (linha < TAMANHO_LISTA) {
+        fscanf(fptr, "%99[^%c\n]", nomes[linha]);
+        linha++; // Incrementa o contador de linhas
+    }
+
+    // Fecha o arquivo
+    fclose(fptr);
+
+
+    printf("Lista antes da ordenacao:\n");
+    for (int i = 0; i < TAMANHO_LISTA; i++) {
+        printf("%s\n", nomes[i]);
+    }
+
+    bubbleSort(nomes, TAMANHO_LISTA);
+
+    printf("\nLista apos a ordenacao:\n");
+    for (int i = 0; i < TAMANHO_LISTA; i++) {
+        printf("%s\n", nomes[i]);
+    }
+
+    return 0;
+}
+
 
